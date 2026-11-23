@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Employment Onboarding · Golden demo</title>
+<style>
+:root{
+  --page:#ffffff; --surface:#ffffff; --surface-2:#f7f7f8; --line:#e6e6e6; --line-soft:#eeeeee;
+  --ink:#111111; --ink-2:#444444; --ink-3:#5f5f5f; --link:#1f4fe0;
+  --hero:#111214; --hero-cell:#1a1b1e; --hero-ink:#ffffff; --hero-ink-2:#b8bac0; --hero-ink-3:#a3a5ac; --hero-stat:#8fb0ff;
+  --accent:#1f4fe0; --on-accent:#ffffff;
+  --problem:#a15c07; --solve-bg:#eefbf4; --solve-line:#bfebd3; --solve-ink:#1e3a2c; --solve-head:#0e7a4a;
+  --proof:#7a2dc7; --human:#a15c07; --human-bg:#fff6ea; --ext:#4a5a63; --ext-bg:#eef2f4;
+  --ok:#0e7a4a; --ok-bg:#eaf8f0; --bad:#b42318; --bad-bg:#fdeceb;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --page:#0f1012; --surface:#17181b; --surface-2:#1d1f23; --line:#2c2e33; --line-soft:#26282c;
+  --ink:#f2f2f3; --ink-2:#cfd0d4; --ink-3:#a9abb2; --link:#8fb0ff;
+  --hero:#1b1d22; --hero-cell:#23252b;
+  --accent:#4f74f0; --on-accent:#ffffff;
+  --problem:#f0a54a; --solve-bg:#14271d; --solve-line:#25523a; --solve-ink:#cfeedd; --solve-head:#5fd39a;
+  --proof:#c79bf5; --human:#f0a54a; --human-bg:#2a2116; --ext:#b6c3ca; --ext-bg:#22282c;
+  --ok:#5fd39a; --ok-bg:#15271d; --bad:#ff8a80; --bad-bg:#2e1a19;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --page:#0f1012; --surface:#17181b; --surface-2:#1d1f23; --line:#2c2e33; --line-soft:#26282c;
+  --ink:#f2f2f3; --ink-2:#cfd0d4; --ink-3:#a9abb2; --link:#8fb0ff;
+  --hero:#1b1d22; --hero-cell:#23252b;
+  --accent:#4f74f0; --on-accent:#ffffff;
+  --problem:#f0a54a; --solve-bg:#14271d; --solve-line:#25523a; --solve-ink:#cfeedd; --solve-head:#5fd39a;
+  --proof:#c79bf5; --human:#f0a54a; --human-bg:#2a2116; --ext:#b6c3ca; --ext-bg:#22282c;
+  --ok:#5fd39a; --ok-bg:#15271d; --bad:#ff8a80; --bad-bg:#2e1a19;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--link)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1220px;margin:0 auto;padding:32px 40px 64px}
+@media (max-width:640px){.wrap{padding:20px 16px 48px}}
+
+.back{font-size:13px;font-weight:500;color:var(--ink-3);text-decoration:none}
+.back:hover{color:var(--ink)}
+
+/* Hero */
+.hero{margin-top:16px;border-radius:14px;background:var(--hero);color:var(--hero-ink);padding:28px 32px}
+@media (max-width:640px){.hero{padding:22px 18px}}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:24px}
+.hero-copy{display:flex;flex-direction:column;gap:10px;max-width:560px}
+.tag{display:inline-flex;align-items:center;gap:6px;width:fit-content;border-radius:999px;background:rgba(255,255,255,.1);padding:5px 10px;font-size:12px;font-weight:500}
+.hero h1{margin:0;font-size:30px;line-height:1.15;font-weight:600;letter-spacing:-.5px}
+.hero p{margin:0;font-size:14px;line-height:1.55;color:var(--hero-ink-2)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-family:inherit;color:var(--hero-ink);background:rgba(255,255,255,.1)}
+.btn:hover{background:rgba(255,255,255,.16)}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{opacity:.92}
+.btn svg{width:14px;height:14px}
+.todo{outline:1px dashed rgba(255,255,255,.35);outline-offset:2px}
+
+/* Flow strip: the signature element */
+.flowstrip{margin-top:22px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.12);list-style:none;padding:0}
+.flowstrip li{background:var(--hero-cell);padding:14px 16px;display:flex;flex-direction:column;gap:3px;position:relative}
+.flowstrip .fid{font-size:12px;font-weight:600;color:var(--hero-stat)}
+.flowstrip li.outside .fid{color:var(--hero-ink-3)}
+.flowstrip .fname{font-size:15px;font-weight:600}
+.flowstrip .fdesc{font-size:12px;color:var(--hero-ink-3);line-height:1.45}
+@media (max-width:900px){.flowstrip{grid-template-columns:1fr}}
+
+.stats{margin-top:12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.12)}
+.stat{background:var(--hero-cell);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.stat b{font-size:20px;font-weight:600;color:var(--hero-stat)}
+.stat span{font-size:12px;color:var(--hero-ink-3)}
+@media (max-width:600px){.stats{grid-template-columns:1fr}}
+.signin{margin-top:12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--hero-ink-2);display:flex;gap:8px;align-items:center}
+.signin svg{width:14px;height:14px;flex:none}
+
+/* Tabs */
+.tabs{position:sticky;top:0;z-index:20;margin-top:18px;display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--page);padding-top:env(safe-area-inset-top,0px)}
+.tab{flex:none;display:flex;align-items:center;gap:6px;white-space:nowrap;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:12px 14px;font:600 14px/1.2 inherit;font-family:inherit;color:var(--ink-3);cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.count{border-radius:999px;background:var(--surface-2);border:1px solid var(--line-soft);padding:1px 6px;font-size:11px;color:var(--ink-2)}
+.panel{padding:28px 0}
+.panel[hidden]{display:none}
+
+h2{margin:0 0 4px;font-size:20px;font-weight:600;letter-spacing:-.2px}
+h3{margin:0;font-size:15px;font-weight:600}
+.lede{margin:0 0 20px;color:var(--ink-3);font-size:14px;max-width:70ch}
+.grid2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.stack{display:flex;flex-direction:column;gap:12px}
+.problem-h{color:var(--problem)}
+.body{margin:0;font-size:15px;color:var(--ink);max-width:68ch}
+.pain{display:flex;gap:12px;border:1px solid var(--line-soft);border-radius:10px;padding:12px 14px}
+.pain .n{min-width:16px;font-size:12px;font-weight:600;color:var(--problem)}
+.pain p{margin:2px 0 0;font-size:13px;color:var(--ink-3)}
+.solve{border:1px solid var(--solve-line);background:var(--solve-bg);border-radius:12px;padding:18px;color:var(--solve-ink);font-size:14px}
+.solve h2{color:var(--solve-head);font-size:16px}
+.solve p{margin:8px 0 0}
+.proofcard{border:1px solid var(--line-soft);border-radius:12px;padding:18px}
+.proofcard h2{font-size:16px;color:var(--proof)}
+.proofcard .big{font-size:22px;font-weight:600;margin:6px 0}
+.proofcard p{margin:0;font-size:13px;color:var(--ink-3)}
+
+/* Who’s involved */
+.who{margin-top:28px}
+.whogrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px}
+.whocard{border:1px solid var(--line-soft);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--ink-3)}
+.whocard h3{color:var(--ink);font-size:14px;margin-bottom:2px}
+.k{display:inline-block;font-size:11px;font-weight:600;border-radius:4px;padding:1px 6px;margin-right:4px}
+.k.human{background:var(--human-bg);color:var(--human)}
+.k.ext{background:var(--ext-bg);color:var(--ext)}
+.k.opus{background:var(--surface-2);color:var(--link);border:1px solid var(--line-soft)}
+
+/* Run the demo */
+.prep{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px;margin-bottom:28px;padding:0;list-style:none}
+.prep li{border:1px solid var(--line-soft);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--ink-3)}
+.prep li b{display:block;color:var(--ink);font-size:14px;font-weight:600;margin-bottom:2px}
+.cast{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:8px}
+.cast li{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:start;border:1px solid var(--line-soft);border-radius:10px;padding:12px 14px}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:600;color:#fff;font-size:16px}
+.cast h3{font-size:15px}
+.cast p{margin:2px 0 0;font-size:13px;color:var(--ink-3)}
+.outcome{font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.outcome.ok{background:var(--ok-bg);color:var(--ok)}
+.outcome.bad{background:var(--bad-bg);color:var(--bad)}
+.outcome.next{background:var(--human-bg);color:var(--human)}
+@media (max-width:600px){.cast li{grid-template-columns:40px minmax(0,1fr)}.cast .outcome{grid-column:2;justify-self:start}}
+.msg{border:1px solid var(--line-soft);border-radius:12px;padding:16px 18px;max-width:560px;background:var(--surface-2)}
+.msg p{margin:0 0 10px;font-size:14px}
+.msg dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:0;font-size:14px}
+.msg dt{color:var(--ink-3)} .msg dd{margin:0;font-weight:500}
+
+/* Talk track */
+.track{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
+.track li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:14px;border:1px solid var(--line-soft);border-radius:10px;padding:14px 16px}
+.track li::before{counter-increment:s;content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:13px;font-weight:600}
+.track .where{font-size:12px;color:var(--ink-3);margin-top:2px}
+.track .show{margin:8px 0 0;font-size:14px;color:var(--ink-2)}
+.track .say{margin:8px 0 0;padding-left:12px;border-left:3px solid var(--accent);font-size:14px;color:var(--ink)}
+
+/* Objections */
+.obj{border:1px solid var(--line-soft);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.obj summary{cursor:pointer;padding:14px 16px;font-weight:600;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.obj summary::-webkit-details-marker{display:none}
+.obj summary::after{content:"+";color:var(--ink-3);font-weight:400;font-size:18px;line-height:1}
+.obj[open] summary::after{content:"–"}
+.obj .ans{padding:0 16px 16px;font-size:14px;color:var(--ink-2)}
+.obj .ans p{margin:0 0 8px}
+.obj .ans p:last-child{margin:0}
+.obj .ans b{color:var(--ink)}
+
+/* ROI */
+.roi{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+@media (max-width:900px){.roi{grid-template-columns:1fr}}
+.calc{border:1px solid var(--line-soft);border-radius:12px;padding:18px}
+.field{display:grid;gap:4px;margin-bottom:14px}
+.field label{font-size:13px;font-weight:600}
+.field small{font-size:12px;color:var(--ink-3)}
+.field input{font:inherit;font-size:15px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%;max-width:220px}
+.result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;border-radius:10px;overflow:hidden;background:var(--line-soft);margin-top:6px}
+.result div{background:var(--surface-2);padding:12px 14px}
+.result b{display:block;font-size:20px;font-weight:600;color:var(--link)}
+.result span{font-size:12px;color:var(--ink-3)}
+.caveat{font-size:12px;color:var(--ink-3);margin:12px 0 0}
+.proofs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.proofs li{border:1px solid var(--line-soft);border-radius:10px;padding:12px 14px;font-size:14px}
+.proofs li span{display:block;font-size:12px;color:var(--ink-3);margin-top:2px}
+.tbc{display:inline-block;font-size:11px;font-weight:600;padding:0 6px;border-radius:4px;background:var(--human-bg);color:var(--human);border:1px dashed var(--human);white-space:nowrap}
+.sep{margin-top:28px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="back" href="#" data-todo="link to the HR use-case list">← HR &amp; People</a>
+
+  <section class="hero" aria-labelledby="demo-title">
+    <div class="hero-top">
+      <div class="hero-copy">
+        <span class="tag">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Golden demo · HR &amp; People
+        </span>
+        <h1 id="demo-title">Employment Onboarding</h1>
+        <p>This demo takes a retail sales role from the hiring manager’s job description to the new hire’s day-1 message. Opus checks the JD, shortlists candidates by video-interview score, collects consent, forms and a reference check, then runs offers in score order through signing, payroll setup and onboarding.</p>
+      </div>
+      <div class="actions">
+        <a class="btn primary todo" href="#" data-todo="live demo URL" target="_blank" rel="noreferrer">Open the live demo
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+        <a class="btn todo" href="#" data-todo="Opus workflow share link" target="_blank" rel="noreferrer">View on Opus
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+        <a class="btn" href="https://claude.ai/artifact/F3kRCy8cZzwyqLzJCHyTLP" target="_blank" rel="noreferrer">Workflow map
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+      </div>
+    </div>
+
+    <ol class="flowstrip" aria-label="The five stages of the demo">
+      <li><span class="fid">Flow 1</span><span class="fname">Publish JD</span><span class="fdesc">Opus pre-check, HR final check, job post goes live</span></li>
+      <li class="outside"><span class="fid">Outside Opus</span><span class="fname">KitaHQ screening</span><span class="fdesc">Video interviews and scores</span></li>
+      <li><span class="fid">Flow 1b</span><span class="fname">Shortlist</span><span class="fdesc">90%+ automatic, 70–89% HR picks, the rest get a regret email</span></li>
+      <li><span class="fid">Flow 2a</span><span class="fname">Consent, forms &amp; reference</span><span class="fdesc">9 forms checked, up to 3 reminder rounds, vendor check</span></li>
+      <li><span class="fid">Flow 2b</span><span class="fname">Offer to day 1</span><span class="fdesc">Salary, FD-signed offer, Ramco, day-1 message</span></li>
+    </ol>
+
+    <div class="stats">
+      <div class="stat"><b>5</b><span>planned human decisions per hire; 3 more only on exception</span></div>
+      <div class="stat"><b>9</b><span>onboarding forms checked by Opus for completeness and IC match</span></div>
+      <div class="stat"><b>1</b><span>tracker every flow reads and writes, so status is always current</span></div>
+    </div>
+
+    <p class="signin">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Demo accounts are built into the live demo. No sign-in details needed.
+    </p>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Use case sections">
+    <button class="tab" role="tab" id="tab-overview" aria-controls="overview" aria-selected="true">Overview</button>
+    <button class="tab" role="tab" id="tab-run" aria-controls="run" aria-selected="false" tabindex="-1">Run the demo</button>
+    <button class="tab" role="tab" id="tab-talk-track" aria-controls="talk-track" aria-selected="false" tabindex="-1">Talk track <span class="count">7</span></button>
+    <button class="tab" role="tab" id="tab-objections" aria-controls="objections" aria-selected="false" tabindex="-1">Objections <span class="count">5</span></button>
+    <button class="tab" role="tab" id="tab-roi" aria-controls="roi" aria-selected="false" tabindex="-1">ROI &amp; proof</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="panel" id="overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
+    <div class="grid2">
+      <div class="stack">
+        <h2 class="problem-h">The problem</h2>
+        <p class="body">Hiring for retail stores is high-volume and paperwork-heavy. Every new hire passes through the hiring manager, HR, a screening tool, a reference vendor, the Finance Director and payroll, and each hand-off runs on email and chasing. Good candidates go quiet or take another offer while their forms sit in an inbox.</p>
+        <div class="pain"><span class="n">1</span><div><h3>Chasing paperwork by hand</h3><p>Consent, nine forms and IC copies arrive blurry, incomplete or not at all, and HR spends days sending reminders one candidate at a time.</p></div></div>
+        <div class="pain"><span class="n">2</span><div><h3>Offers stall in the queue</h3><p>When a candidate declines or lets an offer lapse, nobody notices quickly, so the next-best candidate waits and openings stay unfilled.</p></div></div>
+        <div class="pain"><span class="n">3</span><div><h3>Re-keying into payroll</h3><p>The same bank, tax and address details are typed again into payroll, and the store manager often learns about the new hire on day 1.</p></div></div>
+      </div>
+      <div class="stack">
+        <div class="solve">
+          <h2>What Opus solves</h2>
+          <p>Opus runs the whole path from approved JD to day 1 as four connected workflows. It checks every document, sends every reminder, offers in score order and moves to the next candidate automatically, so people only step in for the decisions that are theirs: approving the JD, picking from the middle score band, setting salary and signing the offer.</p>
+        </div>
+        <div class="proofcard">
+          <h2>Proof point</h2>
+          <p class="big">From signed offer to day-1 message with no re-keying</p>
+          <p>The new-hire form flows into Ramco, the employee ID comes back, and the day-1 message goes to the new hire with the store manager copied. Every step is in the Opus audit trail.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="who">
+      <h2>Who’s involved</h2>
+      <p class="lede">Opus does the routine work. These are the people and systems it hands off to.</p>
+      <div class="whogrid">
+        <div class="whocard"><h3><span class="k human">Person</span>Hiring manager</h3>Writes the JD, revises it if returned, proposes salary and confirms the store.</div>
+        <div class="whocard"><h3><span class="k human">Person</span>HR team</h3>Final JD check, picks candidates from the 70–89% band, follows up on forms after round 3.</div>
+        <div class="whocard"><h3><span class="k human">Person</span>Finance Director</h3>Signs each offer letter before it goes to the candidate.</div>
+        <div class="whocard"><h3><span class="k ext">System</span>KitaHQ</h3>Runs video interviews and scores every candidate. Mocked in the demo.</div>
+        <div class="whocard"><h3><span class="k ext">System</span>Reference-check vendor</h3>Verifies IC and credentials by email. Mocked in the demo.</div>
+        <div class="whocard"><h3><span class="k ext">System</span>Ramco payroll</h3>Creates or reactivates the employee and returns an ID. Mocked in the demo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RUN THE DEMO -->
+  <section class="panel" id="run" role="tabpanel" aria-labelledby="tab-run" tabindex="0" hidden>
+    <h2>Before you start</h2>
+    <p class="lede">The demo uses 2 openings at one store region and five candidates. Each candidate shows a different path through the flows.</p>
+    <ul class="prep">
+      <li><b>Open the app and Slack</b>Keep the demo app and the #recruitment Slack channel side by side. Every flow posts there.</li>
+      <li><b>Have the tracker visible</b>The Candidate Tracker sheet shows status changing live. It’s the best “single source of truth” moment.</li>
+      <li><b>Know what’s mocked</b>KitaHQ, the reference vendor and Ramco are mocked. The job post is a LinkedIn-style PDF, not a real posting.</li>
+    </ul>
+
+    <h2>Demo cast</h2>
+    <p class="lede">Run them in this order. Each one is also a test case to check before a live session.</p>
+    <ul class="cast">
+      <li><span class="av" style="background:#1f4fe0" aria-hidden="true">A</span><div><h3>Aisyah</h3><p>Top KitaHQ score. Forms clean, reference clear. Hiring manager proposes salary, FD signs, she signs, Ramco returns her ID, day-1 message sent.</p></div><span class="outcome ok">Hired</span></li>
+      <li><span class="av" style="background:#b42318" aria-hidden="true">W</span><div><h3>Wei Ling</h3><p>Shortlisted, but the reference vendor flags her IC details.</p></div><span class="outcome bad">Not cleared</span></li>
+      <li><span class="av" style="background:#7a2dc7" aria-hidden="true">M</span><div><h3>Mei</h3><p>Cleared and offered second, but lets the offer lapse after the day-2 and day-4 reminders. Opus moves to the next cleared candidate.</p></div><span class="outcome next">Lapsed</span></li>
+      <li><span class="av" style="background:#4a5a63" aria-hidden="true">D</span><div><h3>Daniel</h3><p>Blurry IC and a missing form. Two reminder rounds, then cleared. Gets the offer after Mei lapses.</p></div><span class="outcome ok">Hired</span></li>
+      <li><span class="av" style="background:#a15c07" aria-hidden="true">R</span><div><h3>Ravi</h3><p>A rehire further down the list. Shows the “reporting instructions only” branch and a Ramco reactivation if offered.</p></div><span class="outcome next">Rehire branch</span></li>
+    </ul>
+
+    <h2>What the audience sees at the end</h2>
+    <p class="lede">Flow 2b’s day-1 message for Aisyah.</p>
+    <div class="msg">
+      <p>Hi Aisyah, welcome aboard! Here’s everything for your first day:</p>
+      <dl>
+        <dt>Store</dt><dd>Mid Valley Megamall, Level 2</dd>
+        <dt>Report to</dt><dd>Store manager, Farid Hassan</dd>
+        <dt>Date &amp; time</dt><dd>Mon 7 Dec 2026, 9:30 AM MYT</dd>
+        <dt>Employee ID</dt><dd>RS-104382</dd>
+        <dt>Bring</dt><dd>IC and signed uniform form</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- TALK TRACK -->
+  <section class="panel" id="talk-track" role="tabpanel" aria-labelledby="tab-talk-track" tabindex="0" hidden>
+    <h2>Talk track</h2>
+    <p class="lede">About 15 minutes. Each step says what to show and one line to land.</p>
+    <ol class="track">
+      <li><div><h3>Start with the job description</h3><div class="where">Flow 1 · Publish JD</div>
+        <p class="show">The hiring manager writes the JD in the app, section by section. Opus pre-checks sections, salary range, wording and store region, then HR approves inline.</p>
+        <p class="say">“Opus catches the gaps before HR ever opens it, so HR only makes the final call.”</p></div></li>
+      <li><div><h3>The JD goes live</h3><div class="where">Flow 1 · Job posting</div>
+        <p class="show">Opus generates the job post (a LinkedIn-style PDF in the demo) with the KitaHQ apply link, posts to Slack and marks the requisition live in the tracker.</p>
+        <p class="say">“One approval, and the posting, the apply link and the tracker are all done.”</p></div></li>
+      <li><div><h3>Scores arrive and Opus shortlists</h3><div class="where">Flow 1b · Shortlist</div>
+        <p class="show">KitaHQ screening closes. Opus sorts candidates into three bands. HR reviews only the 70–89% band with interview notes. Everyone else gets a shortlist or regret email automatically.</p>
+        <p class="say">“HR’s judgement goes where it matters: the borderline candidates.”</p></div></li>
+      <li><div><h3>Forms and reference check</h3><div class="where">Flow 2a · Daniel and Wei Ling</div>
+        <p class="show">Show consent captured first. Daniel’s blurry IC gets caught and reminded twice, then he’s cleared. Wei Ling’s reference comes back flagged and she’s marked Not cleared.</p>
+        <p class="say">“Nobody on your team chased a single form here.”</p></div></li>
+      <li><div><h3>Offer in score order</h3><div class="where">Flow 2b · Aisyah</div>
+        <p class="show">Aisyah is offered first. The hiring manager proposes salary and confirms the store, Opus drafts the letter, the FD signs, then she signs in the portal.</p>
+        <p class="say">“The best-scored cleared candidate always gets the first offer.”</p></div></li>
+      <li><div><h3>A lapsed offer moves the queue</h3><div class="where">Flow 2b · Mei, then Daniel</div>
+        <p class="show">Mei lets her offer lapse after reminders on day 2 and 4. Opus marks her Dropped and starts an offer for Daniel without anyone asking.</p>
+        <p class="say">“Openings don’t sit empty because someone forgot to check an inbox.”</p></div></li>
+      <li><div><h3>Payroll and day 1</h3><div class="where">Flow 2b · Ramco and day-1 message</div>
+        <p class="show">The new-hire form goes into Ramco, the employee ID comes back, and the day-1 message reaches Aisyah with the store manager copied. Close on the tracker and the audit trail.</p>
+        <p class="say">“From signed offer to first day, nothing was typed twice.”</p></div></li>
+    </ol>
+  </section>
+
+  <!-- OBJECTIONS -->
+  <section class="panel" id="objections" role="tabpanel" aria-labelledby="tab-objections" tabindex="0" hidden>
+    <h2>Objections</h2>
+    <p class="lede">The five questions that come up most, with the answer grounded in how the workflow actually behaves.</p>
+    <details class="obj"><summary>“Is AI deciding who gets hired?”</summary>
+      <div class="ans"><p><b>No.</b> Scores come from KitaHQ’s video interviews, and the bands are rules the client sets. HR personally reviews every candidate in the 70–89% band.</p><p>People still approve the JD, set the salary and sign the offer. Opus handles the checking, chasing and routing around those decisions.</p></div></details>
+    <details class="obj"><summary>“What happens when candidates don’t respond?”</summary>
+      <div class="ans"><p>For forms, Opus runs up to three reminder rounds, two days apart, and stops early once everything is valid. After round 3, the paperwork owner in HR follows up personally.</p><p>For offers, there’s a 5-day signing window with reminders on days 2 and 4. A lapse automatically moves the offer to the next cleared candidate by score.</p></div></details>
+    <details class="obj"><summary>“We don’t have an ATS. Ramco is payroll only.”</summary>
+      <div class="ans"><p>That’s the setup this demo is built for. The Candidate Tracker sheet stands in for an ATS, and every flow reads and writes it, so status is always current without buying another system.</p></div></details>
+    <details class="obj"><summary>“What if the Ramco integration fails?”</summary>
+      <div class="ans"><p>The flow doesn’t stop. If Ramco doesn’t return an employee ID, HR ops gets a pre-filled sheet from Opus to key the new hire in by hand, and the flow carries on to the day-1 message once the ID is entered.</p></div></details>
+    <details class="obj"><summary>“How do we handle candidate consent and personal data?”</summary>
+      <div class="ans"><p>Consent is the first step of Flow 2a, before any forms are requested, and it covers the reference check too. Every action, reminder and decision is recorded in the Opus audit trail.</p><p>Confirm data-handling requirements with the client’s legal or compliance team before go-live.</p></div></details>
+  </section>
+
+  <!-- ROI & PROOF -->
+  <section class="panel" id="roi" role="tabpanel" aria-labelledby="tab-roi" tabindex="0" hidden>
+    <div class="roi">
+      <div>
+        <h2>Estimate the time saved</h2>
+        <p class="lede">An illustrative model. Replace the defaults with the client’s own baseline before sharing any figure.</p>
+        <div class="calc">
+          <div class="field"><label for="hires">New hires per month</label><input id="hires" type="number" min="0" step="1" value="10"></div>
+          <div class="field"><label for="before">HR hours per hire today</label><small>Chasing forms, reminders, offer admin, payroll entry</small><input id="before" type="number" min="0" step="0.5" value="6"></div>
+          <div class="field"><label for="after">HR hours per hire with Opus</label><small>Reviews, approvals and exceptions only</small><input id="after" type="number" min="0" step="0.5" value="1.5"></div>
+          <div class="field"><label for="rate">Loaded HR cost per hour (RM)</label><input id="rate" type="number" min="0" step="5" value="60"></div>
+          <div class="result" aria-live="polite">
+            <div><b id="hrs">—</b><span>HR hours saved per month</span></div>
+            <div><b id="cost">—</b><span>cost saved per year</span></div>
+          </div>
+          <p class="caveat">Defaults are placeholders, not measured results. <span class="tbc">client baseline to confirm</span></p>
+        </div>
+      </div>
+      <div>
+        <h2>What the demo proves</h2>
+        <p class="lede">Each point is something the audience sees happen live.</p>
+        <ul class="proofs">
+          <li>Opus catches JD problems before HR sees them<span>Flow 1 · pre-check of sections, salary range, wording and region</span></li>
+          <li>HR reviews only the borderline candidates<span>Flow 1b · the 70–89% score band</span></li>
+          <li>Bad documents get caught and chased automatically<span>Flow 2a · Daniel’s blurry IC and missing form</span></li>
+          <li>Offers go out in score order, and lapses move the queue<span>Flow 2b · Mei lapses, Daniel is offered</span></li>
+          <li>No re-keying between offer, payroll and day 1<span>Flow 2b · Ramco ID returned, day-1 message sent</span></li>
+          <li>One place to see every candidate’s status<span>Candidate Tracker, Slack #recruitment and the Opus audit trail</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="sep">
+      <h2>Still to confirm with the client</h2>
+      <p class="lede">Open items from the workflow notes. Avoid promising these in the demo.</p>
+      <ul class="proofs">
+        <li>The final list of 9 onboarding forms</li>
+        <li>How the Finance Director signs offers</li>
+        <li>Whether the reference check runs before the offer, and whether a flag auto-rejects</li>
+        <li>Live connections to LinkedIn, Indeed, JobStreet and the careers site (the demo uses a PDF)</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  // Tabs: click, arrow keys, and #hash links
+  const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+  function select(tab, focus){
+    tabs.forEach(t => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tab.focus();
+    const id = tab.getAttribute('aria-controls');
+    if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', e => {
+      let j = null;
+      if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+      if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+      if (e.key === 'Home') j = 0;
+      if (e.key === 'End') j = tabs.length - 1;
+      if (j !== null){ e.preventDefault(); select(tabs[j], true); }
+    });
+  });
+  function fromHash(){
+    const id = location.hash.slice(1);
+    const t = tabs.find(x => x.getAttribute('aria-controls') === id);
+    if (t) select(t);
+  }
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+
+  // Placeholder links: don't navigate until a real URL is added
+  document.querySelectorAll('a[data-todo]').forEach(a => {
+    a.title = 'Add the ' + a.dataset.todo;
+    a.addEventListener('click', e => { if (a.getAttribute('href') === '#') e.preventDefault(); });
+  });
+
+  // ROI calculator
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString('en-MY', {maximumFractionDigits: 0});
+  function calc(){
+    const hires = Math.max(0, +$('hires').value || 0);
+    const saved = Math.max(0, (+$('before').value || 0) - (+$('after').value || 0));
+    const rate = Math.max(0, +$('rate').value || 0);
+    const hrs = hires * saved;
+    $('hrs').textContent = fmt(hrs);
+    $('cost').textContent = 'RM ' + fmt(hrs * rate * 12);
+  }
+  ['hires','before','after','rate'].forEach(id => $(id).addEventListener('input', calc));
+  calc();
+})();
+</script>
+</body>
+</html>
